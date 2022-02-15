@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=750px">
+<title>体温記録</title>
+
+<script >
+
+ten="",keyin=0;//テンキー
+var kdata=new Array(1); //テンキー
+kdata[1]="",kdata[2]="",d1="",d2="";//入力値
+n=0,k=0,i=0, m=0,f="";//変数
+
+function str_load()   {;//storageのload表示
+str = localStorage.getItem("taion");
+document.getElementById("mycomment").value=str;
+}
+
+// 入力値と日付の登録
+function str_save()   {
+    for(j=1;j<=1;j++){
+        document.getElementById("d"+j).style.backgroundColor ="white"
+    }
+
+//本日日付
+    xx1=(new Date().getFullYear());//年
+    xx2=(new Date().getMonth())+1;//月
+    xx3=(new Date().getDate());//日
+    xx4=(new Date().getHours());//時
+    xx5=(new Date().getMinutes());//分
+    if(xx2<10){xx2="0"+xx2}
+    if(xx3<10){xx3="0"+xx3}
+    if(xx4<10){xx4="0"+xx4}
+    if(xx5<10){xx5="0"+xx5}
+    xx0=xx1+"."+xx2+"."+xx3+","+xx4+":"+xx5;
+
+//登録時のアラート表記
+    d1=document.MyForm.d1.value;
+    if (window.confirm('本日の体温'+d1+'度を記録しますか？')) {
+        str=xx0+","+d1+"\n"+str;
+        document.getElementById("mycomment").value=str;
+        localStorage.setItem("taion",str);
+        location.reload();
+    } else {  
+    return false;
+    }
+}
+
+// テンキーの入力
+function input0(i) {
+    if(i==-1){
+        kdata[keyin]=kdata[keyin].substr(0,(kdata[keyin].length)-1);document.getElementById("d"+keyin).value=kdata[keyin];
+        return
+        }
+    if(i==-2){
+        i="."
+        }
+    kdata[keyin]=kdata[keyin]+i;
+    document.getElementById("d"+keyin).value=kdata[keyin];
+}
+
+//テンキーの表示と初期の色
+function tenkey(i){
+    for(j=1;j<=1;j++){
+        document.getElementById("d"+j).style.backgroundColor ="white"
+        }
+    document.getElementById("d"+i).style.backgroundColor ="blue";
+    keyin=i;
+    ten="";
+    var element=document.getElementById("d"+i);
+    kdata[i]="",element.value="";
+}
+
+</script>
+</head>
+
+
+
+<!-- メイン -->
+
+<body style="font-size:16px;" onload="str_load()">
+<form name="MyForm"  style="visibility:visible;" >
+<div style="width:760px;"><h1 color="green">私の健康管理メモ</h1></div>
+<div style="width:760px;margin-top:10px;">今日の体温を入力してください (入力例：36.5)<br>
+<input id='d1' value=''  style='width:92px;text-align:center;font-size:40px;' onClick='tenkey(1)'  readonly="readonly" >
+<input type="button" onClick="location.reload()" value="取消" >
+</div>
+
+<!--テンキーの設定-->
+<div id="key0"  style="width:350px;margin-top:10px;float:left;">
+<input type='button' onClick='input0(7)' value='7'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(8)' value='8'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(9)' value='9'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<br>
+<input type='button' onClick='input0(4)' value='4'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(5)' value='5'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(6)' value='6'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<br>
+<input type='button' onClick='input0(1)' value='1'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(2)' value='2'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(3)' value='3'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<br>
+<input type='button' onClick='input0(0)' value='0'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(-2)' value='.'  style='width:100px;height:60px;font-size:35px;color:white;background-color:orange;'>
+<input type='button' onClick='input0(-1)' value='C'  style='width:100px;height:60px;font-size:35px;color:white;background-color:red;'>
+</div>
+
+<div  style="width:300px;margin-top:10px;float:left;">
+    ↓ 今日の体温を入力して[登録]Click ↓<br>
+<input type="button" onClick="str_save()" value="登録" style='width:300px;height:30px;font-size:20px;color:white;background-color:orangered;vertical-align:top;' ><br>
+<br>
+<textarea NAME="mycomment" id="mycomment"   style="width:300px;height:150px;" >
+</textarea>
+
+</form>
+</body>
+
+
+</html>
